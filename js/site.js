@@ -10,9 +10,16 @@ const topbar = $("#topbar");
 const onScroll = () => topbar.classList.toggle("is-solid", scrollY > innerHeight * 0.55);
 addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
-// ---- hero video: no motion if the visitor asked for less
+// ---- hero video: the size that fits this screen. A still image stays if the visitor asked for less motion or data.
 const hero = $(".hero-video");
-if (hero && reduceMotion) { hero.removeAttribute("autoplay"); hero.pause(); }
+if (hero && !reduceMotion && !navigator.connection?.saveData) {
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  const need = Math.max(innerWidth * dpr, innerHeight * dpr * 16 / 9);      // width in pixels of a 16:9 frame that covers the hero
+  const phone = matchMedia("(max-width: 820px)").matches, slow = /2g|3g/.test(navigator.connection?.effectiveType || "");
+  const size = slow ? 720 : phone ? 1080 : need >= 1900 ? 1440 : need >= 1150 ? 1080 : 720;
+  hero.src = hero.canPlayType('video/webm; codecs="vp9"') ? `media/video/hero_site_${size}.webm` : "media/video/hero_site_720.mp4";
+  hero.play().catch(() => {});
+}
 
 // ---- clips load and play only while they are on screen
 const clipObserver = new IntersectionObserver((entries) => {

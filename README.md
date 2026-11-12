@@ -1,7 +1,7 @@
 # ForeSite: Adaptive Whole-Body Struck-By Hazard Avoidance for Humanoid Material Transport on Construction Sites
 
 <p align="center">
-  <img src="foresite/results/figures/fig04_framework.png" alt="The ForeSite framework" width="100%">
+  <img src="media/poster/fig04_framework.png" alt="The ForeSite framework" width="100%">
 </p>
 
 <p align="center">

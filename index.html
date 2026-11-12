@@ -35,9 +35,8 @@
 
 <!-- ================================================================== hero -->
 <div class="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="media/poster/hero_drone_in.jpg" aria-hidden="true">
-    <source src="media/video/hero_drone_in.webm" type="video/webm">
-  </video>
+  <!-- js/site.js picks the size of the background video (1440p, 1080p or 720p) for this screen -->
+  <video class="hero-video" muted loop playsinline preload="none" poster="media/poster/hero_site.jpg" aria-hidden="true"></video>
   <div class="hero-inner">
     <h1>Fore<span>Site</span></h1>
     <p class="subtitle">Adaptive whole-body struck-by hazard avoidance for humanoid material transport on construction sites</p>
@@ -60,7 +59,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></svg>Walk the site in 3D</a>
     </div>
   </div>
-  <p class="hero-credit">Simulated in MuJoCo, seed 13</p>
+  <p class="hero-credit">Replay of a simulated run, seed 3</p>
 </div>
 <div class="tape" aria-hidden="true"></div>
 
@@ -188,6 +187,8 @@
         <figcaption><b>The whole site</b><span>Pull-back from the staging area at the end of a delivery.</span></figcaption></figure>
     </div>
     <div class="site-tour">
+      <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/hero_drone_in.jpg" data-auto><source src="media/video/hero_drone_in.webm" type="video/webm"></video><span class="seed">seed 13</span></div>
+        <figcaption><b>Arriving at the gate</b><span>Fly-in to the entrance road, where every trip starts.</span></figcaption></figure>
       <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/site_corridor.jpg" data-auto><source src="media/video/site_corridor.webm" type="video/webm"></video><span class="seed">seed 10</span></div>
         <figcaption><b>The ground floor corridor</b><span>Pipes, beams, hooks and braces reach into the walkway under the scaffolds.</span></figcaption></figure>
       <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/site_carrying_box.jpg" data-auto><source src="media/video/site_carrying_box.webm" type="video/webm"></video><span class="seed">seed 13</span></div>
