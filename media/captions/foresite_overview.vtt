@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.420 --> 00:00:02.740
+A construction site never stands still.
+
+00:00:10.520 --> 00:00:14.720
+Humanoid robots could soon carry
+materials through buildings like this one.
+
+00:00:23.151 --> 00:00:28.231
+But on a busy site, loads swing, workers
+carry long pipes, and machines turn.
+
+00:00:30.721 --> 00:00:35.661
+Being struck by an object is one of the
+leading causes of death in construction.
+
+00:00:40.822 --> 00:00:46.092
+The robot carries its load up ramps and
+stairs, and across wet floors and debris.
+
+00:00:53.453 --> 00:00:56.593
+When something hangs
+in its path, it squats,
+
+00:00:56.593 --> 00:00:58.763
+twists or bends, and keeps walking.
+
+00:01:06.085 --> 00:01:08.165
+Moving hazards need timing.
+
+00:01:08.165 --> 00:01:12.885
+ForeSite looks a few seconds ahead and
+chooses how to move, and when to go.
+
+00:01:21.248 --> 00:01:25.998
+Without ForeSite, a hit can knock the
+robot over and make it drop its load.
+
+00:01:25.998 --> 00:01:29.668
+With ForeSite, it waits
+and passes behind the load.
+
+00:01:33.903 --> 00:01:36.093
+ForeSite links a walking policy
+
+00:01:36.093 --> 00:01:40.703
+and a safety filter through a planner
+that chooses posture and speed together.
+
+00:01:46.511 --> 00:01:47.711
+ForeSite.
+
+00:01:47.711 --> 00:01:49.131
+Knowing how to move, and when to go.

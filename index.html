@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ForeSite: struck-by hazard avoidance for humanoids on construction sites</title>
+<meta name="description" content="ForeSite chooses walking speed and posture for a humanoid that carries material past struck-by hazards on a construction site. Project page with the overview video, an interactive 3D replay of the simulated site, results and the open testbed.">
+<meta property="og:title" content="ForeSite: struck-by hazard avoidance for humanoids on construction sites">
+<meta property="og:description" content="A humanoid carries a 4.1 kg box through a full-scale simulated building site and chooses when to walk, wait or duck.">
+<meta property="og:image" content="media/poster/foresite_overview.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#161A1F">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/big-shoulders-display-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/" } }</script>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <a class="brand" href="#top" aria-label="ForeSite, back to the top"><i aria-hidden="true"></i>ForeSite</a>
+  <nav aria-label="Sections">
+    <a href="#video">Video</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#clips">Clips</a>
+    <a href="#testbed">3D site</a>
+    <a href="#method">Method</a>
+    <a href="#results">Results</a>
+    <a href="#cite">Cite</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ================================================================== hero -->
+<div class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="media/poster/hero_drone_in.jpg" aria-hidden="true">
+    <source src="media/video/hero_drone_in.webm" type="video/webm">
+  </video>
+  <div class="hero-inner">
+    <h1>Fore<span>Site</span></h1>
+    <p class="subtitle">Adaptive whole-body struck-by hazard avoidance for humanoid material transport on construction sites</p>
+    <div class="authors">
+      <div><b>Alamgir Hossain</b><span>University of California, Riverside</span></div>
+      <div><b>Shuai Li</b><span>University of Florida</span></div>
+    </div>
+    <div class="cta">
+      <!-- When the paper and the code are public, turn each span into a link:
+           <a class="btn btn-hivis" href="https://...">Paper</a>  and remove the <small> tag. -->
+      <span class="btn btn-soon" role="link" aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+        Paper <small>coming soon</small></span>
+      <span class="btn btn-soon" role="link" aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>
+        Code <small>coming soon</small></span>
+      <a class="btn btn-hivis" href="#video">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Watch the overview</a>
+      <a class="btn btn-ghost" href="#testbed">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></svg>Walk the site in 3D</a>
+    </div>
+  </div>
+  <p class="hero-credit">Simulated in MuJoCo, seed 13</p>
+</div>
+<div class="tape" aria-hidden="true"></div>
+
+<!-- ================================================================== overview video -->
+<section class="film" id="video">
+  <div class="wrap">
+    <div class="player">
+      <video controls playsinline preload="none" poster="media/poster/foresite_overview.jpg">
+        <source src="media/video/foresite_overview.webm" type="video/webm">
+        <track kind="captions" srclang="en" label="English" src="media/captions/foresite_overview.vtt" default>
+        Your browser cannot play this video.
+      </video>
+    </div>
+    <p class="note">Two minutes, with sound. Every shot is a simulation run in MuJoCo. Music: “Undaunted” by Kevin MacLeod
+      (incompetech.com), licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Voice: Kokoro (AI).</p>
+  </div>
+</section>
+
+<!-- ================================================================== abstract -->
+<section id="abstract">
+  <div class="wrap abstract">
+    <div>
+      <div class="sec-head"><h2>Abstract</h2></div>
+      <p>On construction sites, a humanoid carrying materials may need to duck beneath an obstruction, wait for a worker,
+        or adjust its movement around equipment. ForeSite adds a planner to a perceptive walking policy to select walking
+        speed and body posture using postures tested during loaded walking. We evaluate a Unitree G1 robot carrying a
+        4.1 kg box in simulation with known hazard trajectories.</p>
+      <p>Across 120 encounters involving a crane load, a worker carrying a pipe, and an excavator arm, ForeSite records
+        4 hits, compared with 17 for stop-and-wait and 83 without avoidance. However, it falls in 5 of 200 runs, compared
+        with 1 without avoidance. In separate contact simulations, harmful outcomes occur in 3 of 80 runs, compared with
+        9 for stop-and-wait and 31 without avoidance. Waiting outside hazard zones prevents hits but increases travel
+        time.</p>
+      <p>We also introduce a full-scale simulated construction-site testbed with 15 hazards for evaluating humanoid
+        material transport.</p>
+    </div>
+    <aside class="headline-bars" aria-labelledby="hb-title">
+      <h3 id="hb-title">Hits in 120 encounters</h3>
+      <p>Crane load, worker with a pipe and excavator arm. Seeds 0 to 39, hazard motion known.</p>
+      <div class="bars" data-max="120">
+        <div class="bar"><span>No avoidance</span><div class="track"><i class="fill" data-v="83"></i></div><output>83</output></div>
+        <div class="bar"><span>Stop and wait</span><div class="track"><i class="fill" data-v="17"></i></div><output>17</output></div>
+        <div class="bar is-foresite"><span>ForeSite</span><div class="track"><i class="fill" data-v="4"></i></div><output>4</output></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================================================================== clips -->
+<section class="paper" id="clips">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>One box, one route, a different answer for each hazard</h2>
+      <p class="lede">The robot carries a 4.1 kg box for 44 m. Some hazards it passes with a posture change. For others,
+        the right move is to wait, or to keep walking.</p>
+    </div>
+
+    <div class="clip-group">
+      <header><h3>It first has to get across the site</h3>
+        <p>The walking policy RPL sees the ground through two depth cameras. ForeSite only sends it the commands it already accepts.</p></header>
+      <div class="clips">
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/terrain_ramp.jpg" data-auto><source src="media/video/terrain_ramp.webm" type="video/webm"></video><span class="seed">seed 2</span></div>
+          <figcaption><b>Plywood ramp</b><span>10° up to the ground floor slab.</span></figcaption></figure>
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/terrain_stairs.jpg" data-auto><source src="media/video/terrain_stairs.webm" type="video/webm"></video><span class="seed">seed 4</span></div>
+          <figcaption><b>Temporary stair</b><span>Four 20 cm steps up, a landing, four down.</span></figcaption></figure>
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/terrain_wet_slab.jpg" data-auto><source src="media/video/terrain_wet_slab.webm" type="video/webm"></video><span class="seed">seed 0</span></div>
+          <figcaption><b>Wet slab</b><span>Friction 0.25. Deep moves need a stop first.</span></figcaption></figure>
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/terrain_debris.jpg" data-auto><source src="media/video/terrain_debris.webm" type="video/webm"></video><span class="seed">seed 3</span></div>
+          <figcaption><b>Debris</b><span>Brick pieces, lumber and pipe ends, 2 to 5 cm high.</span></figcaption></figure>
+      </div>
+    </div>
+
+    <div class="clip-group">
+      <header><h3>Fixed hazards: change posture, keep walking</h3>
+        <p>A fixed object never moves out of the way. The robot squats, twists or bends by as much as the hazard needs.</p></header>
+      <div class="clips three">
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/posture_squat.jpg" data-auto><source src="media/video/posture_squat.webm" type="video/webm"></video><span class="seed">seed 10</span></div>
+          <figcaption><b>Squat</b><span>Under a sprinkler main on pipe stands.</span></figcaption></figure>
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/posture_twist.jpg" data-auto><source src="media/video/posture_twist.webm" type="video/webm"></video><span class="seed">seed 10</span></div>
+          <figcaption><b>Twist</b><span>Past a chain hoist hook left hanging beside the path.</span></figcaption></figure>
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/posture_bend.jpg" data-auto><source src="media/video/posture_bend.webm" type="video/webm"></video><span class="seed">seed 10</span></div>
+          <figcaption><b>Bend, with a squat</b><span>Under low overhead loads in the corridor.</span></figcaption></figure>
+      </div>
+    </div>
+
+    <div class="clip-group">
+      <header><h3>Moving hazards: pick the moment</h3>
+        <p>Every 0.2 s the planner looks 4 s ahead and pairs each speed plan with each posture it has measured on the walking robot.</p></header>
+      <div class="clips three">
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/timing_crane.jpg" data-auto><source src="media/video/timing_crane.webm" type="video/webm"></video><span class="seed">seed 3</span></div>
+          <figcaption><b>Swinging crane load</b><span>It waits and ducks while the load swings past.</span></figcaption></figure>
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/timing_worker.jpg" data-auto><source src="media/video/timing_worker.webm" type="video/webm"></video><span class="seed">seed 8</span></div>
+          <figcaption><b>Worker with a pipe</b><span>It lets the worker cross first.</span></figcaption></figure>
+        <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/timing_excavator.jpg" data-auto><source src="media/video/timing_excavator.webm" type="video/webm"></video><span class="seed">seed 1</span></div>
+          <figcaption><b>Excavator arm</b><span>Stopping here puts a robot inside the swing. It keeps walking.</span></figcaption></figure>
+      </div>
+    </div>
+
+    <div class="clip-group">
+      <header><h3>The same crane swing, with and without ForeSite</h3>
+        <p>Both runs use seed 7: the same load and the same swing.</p></header>
+      <figure class="clip compare"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/compare_crane_seed7.jpg" data-auto><source src="media/video/compare_crane_seed7.webm" type="video/webm"></video>
+        <span class="side l">No avoidance</span><span class="side r">ForeSite</span></div></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== testbed and 3D explorer -->
+<div class="tape" aria-hidden="true"></div>
+<section class="dark" id="testbed">
+  <div class="wrap">
+    <div class="site-intro">
+      <div>
+        <h2>A full-scale site to test your own policy on</h2>
+        <p class="lede" style="margin-top:18px">The testbed is the second contribution: a two-storey building under
+          construction in MuJoCo, with the robot, the box, the hazards, physical contact and the rules that score a run.
+          It ships with no avoidance policy, so the robot walks straight through until you plug one in.</p>
+        <ul class="facts">
+          <li><b>44 m</b>route from the site gate to the staging area</li>
+          <li><b>15</b>struck-by hazards, 11 fixed and 4 moving</li>
+          <li><b>6</b>surfaces: dirt, concrete, ramp, stair, wet slab, debris</li>
+          <li><b>5,282</b>logged runs behind the tables of the paper</li>
+        </ul>
+      </div>
+      <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/site_drone_out.jpg" data-auto><source src="media/video/site_drone_out.webm" type="video/webm"></video><span class="seed">seed 13</span></div>
+        <figcaption><b>The whole site</b><span>Pull-back from the staging area at the end of a delivery.</span></figcaption></figure>
+    </div>
+    <div class="site-tour">
+      <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/site_corridor.jpg" data-auto><source src="media/video/site_corridor.webm" type="video/webm"></video><span class="seed">seed 10</span></div>
+        <figcaption><b>The ground floor corridor</b><span>Pipes, beams, hooks and braces reach into the walkway under the scaffolds.</span></figcaption></figure>
+      <figure class="clip"><div class="frame"><video muted loop playsinline preload="none" poster="media/poster/site_carrying_box.jpg" data-auto><source src="media/video/site_carrying_box.webm" type="video/webm"></video><span class="seed">seed 13</span></div>
+        <figcaption><b>The robot and its load</b><span>A Unitree G1 holds a 4.1 kg box in both hands for the whole trip.</span></figcaption></figure>
+    </div>
+
+    <div class="explorer-shell">
+      <h3 style="font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:8px">Walk the site in 3D</h3>
+      <p class="note" style="margin-bottom:18px">This is a logged run, not an animation: ForeSite on the full route with seed 3,
+        replayed from the simulation states. Drag to look around, pick a hazard, or scrub along the route.</p>
+
+      <div class="explorer" id="explorer">
+        <div class="stage" id="stage">
+          <img class="poster" src="media/poster/site_drone_out.jpg" alt="" loading="lazy">
+          <div class="pins" id="pins"></div>
+          <div class="stage-top">
+            <div class="seg" role="group" aria-label="Camera">
+              <button type="button" data-cam="site" aria-pressed="true">Whole site</button>
+              <button type="button" data-cam="chase" aria-pressed="false">Follow</button>
+              <button type="button" data-cam="side" aria-pressed="false">Side</button>
+              <button type="button" data-cam="top" aria-pressed="false">Top</button>
+            </div>
+          </div>
+          <div class="state-chips" id="chips" aria-live="off"></div>
+          <div class="veil" id="veil">
+            <div>
+              <button class="btn btn-hivis" id="start3d" type="button">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Load the site and walk the route</button>
+              <p id="veilmsg">About 4 MB. Works with mouse, trackpad and touch.</p>
+              <div class="loadbar" id="loadbar" hidden><i></i></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side" aria-label="Run details">
+          <div>
+            <h3>ForeSite, seed 3</h3>
+            <p class="note" style="margin:6px 0 0;color:#98A3AE">Box delivered in 149.6 s. All 15 hazards cleared, no fall.</p>
+          </div>
+          <dl class="readout">
+            <div><dt>Distance</dt><dd id="r-dist">0.0<small>m</small></dd></div>
+            <div><dt>Time</dt><dd id="r-time">0.0<small>s</small></dd></div>
+            <div><dt>Speed command</dt><dd id="r-speed">0.00<small>m/s</small></dd></div>
+            <div><dt>Closest gap</dt><dd id="r-gap">–</dd></div>
+          </dl>
+          <div class="hz-card" id="hzcard">
+            <h4>Pick a hazard</h4>
+            <p>Use a letter on the route bar or a pin in the scene. Orange hazards stay in place. Yellow ones move.</p>
+          </div>
+          <div class="toggles">
+            <label class="toggle"><input type="checkbox" id="t-planner">What the planner sees</label>
+            <label class="toggle"><input type="checkbox" id="t-cut">Cut away the upper floor</label>
+            <label class="toggle"><input type="checkbox" id="t-pins" checked>Hazard pins</label>
+            <label class="toggle"><input type="checkbox" id="t-decor" checked>Scaffolds and props</label>
+          </div>
+        </aside>
+
+        <div class="transport">
+          <button class="playbtn" id="play" type="button" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg></button>
+          <div class="routebar" id="routebar" role="slider" aria-label="Position along the route" aria-valuemin="0" aria-valuemax="44" aria-valuenow="0" tabindex="0">
+            <div class="lane" id="lane"></div><div class="done" id="done"></div><div class="knob" id="knob"></div><div class="names" id="names"></div>
+          </div>
+          <button class="rate" id="rate" type="button" aria-label="Playback speed">2×</button>
+          <div class="hzstrip" id="hzstrip" role="group" aria-label="Jump to a hazard"></div>
+        </div>
+      </div>
+      <noscript><p class="note">The 3D view needs JavaScript.</p></noscript>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>The 15 hazards</h3>
+        <p class="note" style="margin-top:8px">Heights are above the walking surface. A seed sets the variant of each hazard. Select a row to jump to it in the 3D view.</p>
+        <div class="table-scroll">
+          <table class="hz-table" id="hztable">
+            <thead><tr><th></th><th>Hazard</th><th>At</th><th>Type</th><th>Height (m)</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3>Plug in a policy</h3>
+        <ul class="plug">
+          <li>Every 20 ms a policy may set forward speed, pelvis height, waist yaw and waist pitch.</li>
+          <li>It may know each hazard's motion model, or only noisy, late or short-range observations.</li>
+          <li>The testbed scores hits on 15 body spheres, falls, delivery and the outcome of every contact.</li>
+          <li>A run is repeatable from its seed, and it can be saved and rendered later.</li>
+        </ul>
+<pre><span class="c"># the site with all 15 hazards, live viewer</span>
+python -m testbed
+
+<span class="c"># moving hazards that push the robot and the box</span>
+python -m testbed --hazards moving --contact
+
+<span class="c"># ForeSite on the full route, no window</span>
+python -m foresite --headless --seed 3 --randomize</pre>
+        <p style="margin-top:18px"><span class="btn btn-soon" role="link" aria-disabled="true">Code <small>coming soon</small></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="tape" aria-hidden="true"></div>
+
+<!-- ================================================================== method -->
+<section id="method">
+  <div class="wrap">
+    <div class="sec-head"><h2>How ForeSite decides</h2></div>
+    <div class="method">
+      <ol class="steps">
+        <li><h3>Know what the body can really do</h3>
+          <p>A posture map stores where the body ends up when the loaded robot walks in each of 65 postures. While walking, it
+            bends only about half as far as in stance when it also squats.</p></li>
+        <li><h3>Pair every speed plan with every posture</h3>
+          <p>Go, slow down, stop or speed up, times every posture the current surface allows. A pair survives if the predicted
+            gap to every hazard stays at least 12 cm for the next 4 s. The cheapest one wins.</p></li>
+        <li><h3>Filter, then walk</h3>
+          <p>A safety filter from SPARK adjusts waist yaw, waist pitch and pelvis height toward 10 cm gaps. The walking policy
+            RPL turns the commands into 29 joint targets at 50 Hz.</p></li>
+      </ol>
+      <figure>
+        <a href="img/framework.webp" target="_blank" rel="noopener" aria-label="Open the framework diagram at full size"><img src="img/framework.webp" width="1491" height="1046" loading="lazy" alt="Diagram of the ForeSite framework: site inputs feed a speed and posture planner, its posture goes through a safety filter, and speed and posture commands go to the walking policy that drives the G1 on the site."></a>
+        <figcaption>The grid in the planner is an example. RPL is used as is, and the SPARK filter is adapted. Select the diagram to open it at full size.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== results -->
+<section class="paper" id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Results</h2>
+      <p class="lede">Simulation only. A Unitree G1 with a 4.1 kg box, 20 runs per mode and hazard, and hazard motion known to the planner.</p>
+    </div>
+    <div class="results-grid">
+      <div class="card">
+        <h3>Runs with a hit, by hazard</h3>
+        <p>All four moving hazards, seeds 0 to 19, 80 runs per mode.</p>
+        <div class="bars" data-max="80">
+          <div class="bar"><span>No avoidance</span><div class="track"><i class="fill c-crane" data-v="17"></i><i class="fill c-worker" data-v="20"></i><i class="fill c-arm" data-v="5"></i><i class="fill c-falling" data-v="14"></i></div><output>56</output></div>
+          <div class="bar"><span>Filter only</span><div class="track"><i class="fill c-crane" data-v="12"></i><i class="fill c-worker" data-v="20"></i><i class="fill c-arm" data-v="1"></i><i class="fill c-falling" data-v="11"></i></div><output>44</output></div>
+          <div class="bar"><span>Posture only</span><div class="track"><i class="fill c-crane" data-v="7"></i><i class="fill c-worker" data-v="16"></i><i class="fill c-arm" data-v="0"></i><i class="fill c-falling" data-v="10"></i></div><output>33</output></div>
+          <div class="bar"><span>Stop and wait</span><div class="track"><i class="fill c-crane" data-v="3"></i><i class="fill c-worker" data-v="0"></i><i class="fill c-arm" data-v="5"></i><i class="fill c-falling" data-v="14"></i></div><output>22</output></div>
+          <div class="bar"><span>Zone wait</span><div class="track"><i class="fill c-crane" data-v="0"></i><i class="fill c-worker" data-v="0"></i><i class="fill c-arm" data-v="0"></i><i class="fill c-falling" data-v="14"></i></div><output>14</output></div>
+          <div class="bar is-foresite"><span>ForeSite</span><div class="track"><i class="fill c-crane" data-v="2"></i><i class="fill c-worker" data-v="0"></i><i class="fill c-arm" data-v="0"></i><i class="fill c-falling" data-v="11"></i></div><output>13</output></div>
+        </div>
+        <div class="legend"><span><i style="background:#F26B21"></i>Crane load</span><span><i style="background:#F6A04D"></i>Worker</span><span><i style="background:#B5551B"></i>Excavator arm</span><span><i style="background:#7D8894"></i>Falling object</span></div>
+      </div>
+      <div class="card">
+        <h3>Runs that end in harm</h3>
+        <p>With physical contact: a stumble, a dropped box or a fall. 80 runs per mode.</p>
+        <div class="bars" data-max="80">
+          <div class="bar"><span>No avoidance</span><div class="track"><i class="fill" data-v="31"></i></div><output>31</output></div>
+          <div class="bar"><span>Stop and wait</span><div class="track"><i class="fill" data-v="9"></i></div><output>9</output></div>
+          <div class="bar is-foresite"><span>ForeSite</span><div class="track"><i class="fill" data-v="3"></i></div><output>3</output></div>
+        </div>
+        <p style="margin:18px 0 0">Risk score, the mean severity per run: 1.25 without avoidance, 0.44 for stop and wait, 0.20 for ForeSite.</p>
+      </div>
+      <div class="card wide">
+        <h3>The full 44 m route</h3>
+        <p>All 15 hazards in one trip, 20 trips per mode.</p>
+        <div class="table-scroll">
+          <table class="rt">
+            <thead><tr><th>Mode</th><th>Delivered</th><th>Trip (s)</th><th>Standing (s)</th><th>Fixed hits per trip</th><th>Moving hits per trip</th></tr></thead>
+            <tbody>
+              <tr><td>No avoidance</td><td>20 of 20</td><td>126</td><td>0</td><td>10.80</td><td>3.00</td></tr>
+              <tr><td>Stop and wait</td><td>20 of 20</td><td>168</td><td>41</td><td>10.85</td><td>1.70</td></tr>
+              <tr><td>Zone wait, posture moves, drop zone</td><td>17 of 20</td><td>162</td><td>25</td><td>0.05</td><td>0.05</td></tr>
+              <tr class="is-foresite"><td>ForeSite</td><td>19 of 20</td><td>152</td><td>5</td><td>0.40</td><td>0.90</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="honest">
+          <div><b>Falling objects need drop zones</b>An object that falls 4 m lands in 0.9 s. No response of the robot avoids it, and it causes most of the hits that remain.</div>
+          <div><b>Site zones are as safe, but slower</b>A robot that waits outside the zones a site closes to people is not hit by the crane load, the worker or the arm in 60 runs. It takes about 4 s longer per run.</div>
+          <div><b>ForeSite falls more often</b>It falls in 5 of 200 runs, against 1 without avoidance. Deep postures on wet or loose ground are the cause.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== cite -->
+<section id="cite">
+  <div class="wrap">
+    <div class="sec-head"><h2>Cite</h2></div>
+    <div class="cite">
+<pre id="bibtex">@article{hossain2026foresite,
+  title   = {ForeSite: Adaptive Whole-Body Struck-By Hazard Avoidance for Humanoid Material Transport on Construction Sites},
+  author  = {Hossain, Alamgir and Li, Shuai},
+  year    = {2026}
+}</pre>
+      <button class="btn btn-dark btn-sm copy" id="copybib" type="button">Copy</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap credits">
+    <div><h3>Built on</h3>
+      <ul>
+        <li><a href="https://github.com/amazon-far/RPL">RPL</a>, the walking policy and the G1 model (Apache-2.0)</li>
+        <li><a href="https://github.com/intelligent-control-lab/spark">SPARK</a>, the safe set filter (MIT)</li>
+        <li><a href="https://github.com/google-deepmind/mujoco">MuJoCo</a>, physics and rendering (Apache-2.0)</li>
+        <li><a href="https://www.unitree.com/g1">Unitree G1</a>, the robot</li>
+      </ul></div>
+    <div><h3>Assets on this page</h3>
+      <ul>
+        <li>Textures, sky and props from <a href="https://polyhaven.com">Poly Haven</a> (CC0)</li>
+        <li>Music: “Undaunted” by Kevin MacLeod (incompetech.com), <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+        <li>Fonts: Big Shoulders Display and Barlow (SIL Open Font License)</li>
+        <li>3D view: <a href="https://threejs.org">three.js</a> (MIT)</li>
+      </ul></div>
+    <div><h3>ForeSite</h3>
+      <p style="margin:0">Alamgir Hossain and Shuai Li, 2026.<br>All videos and the 3D replay show simulation runs. The seed of each run is given next to it.</p></div>
+  </div>
+</footer>
+
+<script type="module" src="js/site.js"></script>
+</body>
+</html>
